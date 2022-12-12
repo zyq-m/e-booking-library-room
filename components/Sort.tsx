@@ -9,6 +9,10 @@ const customStyles: Modal.Styles = {
     right: "auto",
     bottom: "auto",
     transform: "translate(-50%, -50%)",
+    borderRadius: "1rem",
+    border: "none",
+    paddingInline: "2rem",
+    paddingBlock: "1.5rem",
   },
   overlay: {
     backgroundColor: "rgba(36, 36, 36, 0.50)",
@@ -57,6 +61,7 @@ export default function Sort({ totalRoom, roomStatus }: TSort) {
         Filter
       </button>
       <Modal
+        closeTimeoutMS={200}
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}
