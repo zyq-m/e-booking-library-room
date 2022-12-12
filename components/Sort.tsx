@@ -40,6 +40,7 @@ export default function Sort({ totalRoom, roomStatus }: TSort) {
 
   function handleRadio(e: React.ChangeEvent<HTMLInputElement>): void {
     setIsAvailable(e.target.value);
+    closeModal();
 
     if (e.target.value === "available") {
       roomStatus(true);
