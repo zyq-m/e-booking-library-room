@@ -15,11 +15,16 @@ const customStyles: Modal.Styles = {
   },
 };
 
+type TSort = {
+  totalRoom: number;
+  roomStatus: (status: boolean) => void;
+};
+
 Modal.setAppElement("#__next");
 
-export default function Sort({ totalRoom }: { totalRoom: number }) {
+export default function Sort({ totalRoom, roomStatus }: TSort) {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [isAvailable, setIsAvailable] = useState(false);
+  const [isAvailable, setIsAvailable] = useState("");
 
   function openModal() {
     setIsOpen(true);
@@ -30,16 +35,14 @@ export default function Sort({ totalRoom }: { totalRoom: number }) {
   }
 
   function handleRadio(e: React.ChangeEvent<HTMLInputElement>): void {
+    setIsAvailable(e.target.value);
+
     if (e.target.value === "available") {
-      setIsAvailable(true);
+      roomStatus(true);
       return;
     }
-    setIsAvailable(false);
+    roomStatus(false);
   }
-
-  React.useEffect(() => {
-    console.log(isAvailable);
-  }, [isAvailable]);
 
   return (
     <div className="flex justify-between items-center mb-6">
@@ -60,6 +63,7 @@ export default function Sort({ totalRoom }: { totalRoom: number }) {
             name="isAvailable"
             value="available"
             onChange={handleRadio}
+            checked={isAvailable === "available"}
           />
           <RadioButton
             id="notAvailable"
@@ -67,6 +71,7 @@ export default function Sort({ totalRoom }: { totalRoom: number }) {
             name="isAvailable"
             value="notAvailable"
             onChange={handleRadio}
+            checked={isAvailable === "notAvailable"}
           />
         </div>
       </Modal>
