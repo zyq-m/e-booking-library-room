@@ -8,14 +8,15 @@ type TList = {
 function Rooms({ list }: TList) {
   return (
     <div className="grid gap-4">
-      {list.map((room, i) => {
+      {list.map(room => {
         return (
           <RoomCard
-            key={i}
+            key={room.roomId}
             name={room.name}
             image={room.image}
             capacity={room.capacity}
             isAvailable={room.isAvailable}
+            roomId={room.roomId}
           />
         );
       })}

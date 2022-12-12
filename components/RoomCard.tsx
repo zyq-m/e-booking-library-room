@@ -7,6 +7,7 @@ export type TRoom = {
   name: string;
   capacity: number;
   isAvailable: boolean;
+  roomId: string;
 };
 
 export default function RoomCard({
@@ -14,7 +15,9 @@ export default function RoomCard({
   name,
   capacity,
   isAvailable,
+  roomId,
 }: TRoom) {
+  //TODO: jgn lupa manipulate roomId
   return (
     <div className="flex gap-3 items-center p-2 rounded-lg bg-slate-50">
       <Image

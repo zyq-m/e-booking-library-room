@@ -17,14 +17,14 @@ const customStyles: Modal.Styles = {
 
 type TSort = {
   totalRoom: number;
-  roomStatus: (status: boolean) => void;
+  roomStatus: (status: boolean | string) => void;
 };
 
 Modal.setAppElement("#__next");
 
 export default function Sort({ totalRoom, roomStatus }: TSort) {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [isAvailable, setIsAvailable] = useState("");
+  const [isAvailable, setIsAvailable] = useState("all");
 
   function openModal() {
     setIsOpen(true);
@@ -41,6 +41,12 @@ export default function Sort({ totalRoom, roomStatus }: TSort) {
       roomStatus(true);
       return;
     }
+
+    if (e.target.value === "all") {
+      roomStatus(e.target.value);
+      return;
+    }
+
     roomStatus(false);
   }
 
@@ -57,6 +63,14 @@ export default function Sort({ totalRoom, roomStatus }: TSort) {
         contentLabel="Example Modal">
         <h3 className="mb-4 font-semibold">Filter by room status</h3>
         <div className="grid gap-4">
+          <RadioButton
+            id="all"
+            label="All"
+            name="isAvailable"
+            value="all"
+            onChange={handleRadio}
+            checked={isAvailable === "all"}
+          />
           <RadioButton
             id="available"
             label="Available"
