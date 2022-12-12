@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../components/Button";
 
 export default function Home() {
   return (
@@ -8,9 +9,7 @@ export default function Home() {
         <p>Find your study room and book any time you want with us</p>
       </div>
       <div className="self-end">
-        <button className="mb-3 w-full py-2 text-lg rounded-3xl bg-blue-400">
-          Sign up
-        </button>
+        <Button label="Sign up" styles="mb-3 w-full text-lg" />
         <p className="mb-6 text-center">
           Already have account? <a className="text-blue-400">Log in</a>
         </p>
