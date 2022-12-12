@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
+import RadioButton from "./RadioButton";
 
 const customStyles: Modal.Styles = {
   content: {
@@ -36,6 +37,10 @@ export default function Sort({ totalRoom }: { totalRoom: number }) {
     setIsAvailable(false);
   }
 
+  React.useEffect(() => {
+    console.log(isAvailable);
+  }, [isAvailable]);
+
   return (
     <div className="flex justify-between items-center mb-6">
       <p>{totalRoom} room are found</p>
@@ -49,14 +54,14 @@ export default function Sort({ totalRoom }: { totalRoom: number }) {
         contentLabel="Example Modal">
         <h3 className="mb-4 font-semibold">Filter by room status</h3>
         <div className="grid gap-4">
-          <RadioBtn
+          <RadioButton
             id="available"
             label="Available"
             name="isAvailable"
             value="available"
             onChange={handleRadio}
           />
-          <RadioBtn
+          <RadioButton
             id="notAvailable"
             label="Not Available"
             name="isAvailable"
@@ -65,32 +70,6 @@ export default function Sort({ totalRoom }: { totalRoom: number }) {
           />
         </div>
       </Modal>
-    </div>
-  );
-}
-
-type TRadio = {
-  name: string;
-  id: string;
-  label: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
-
-function RadioBtn({ name, label, value, id, onChange }: TRadio) {
-  return (
-    <div className="flex items-center">
-      <input
-        type="radio"
-        id={id}
-        value={value}
-        name={name}
-        className=""
-        onChange={onChange}
-      />
-      <label htmlFor={id} className="ml-2 text-sm">
-        {label}
-      </label>
     </div>
   );
 }
