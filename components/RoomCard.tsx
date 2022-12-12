@@ -19,7 +19,7 @@ export default function RoomCard({
 }: TRoom) {
   //TODO: jgn lupa manipulate roomId
   return (
-    <div className="flex gap-3 items-center p-2 rounded-lg bg-slate-50">
+    <div className="flex gap-3 items-center p-2 rounded-lg bg-gray-50">
       <Image
         loader={() => image}
         src="img.jpg"
@@ -38,12 +38,12 @@ export default function RoomCard({
         <p className="font-medium text-lg capitalize">{name}</p>
         <p className="text-sm">For {capacity} person</p>
         <div className="flex justify-between items-center">
-          <p className={isAvailable ? "text-green-500" : "text-red-500"}>
+          <p className={isAvailable ? "text-green-500" : "text-red-500 opac"}>
             {isAvailable ? "Available" : "Not available"}
           </p>
           <Button
             label="Book now"
-            styles="px-3 text-sm disabled:opacity-75"
+            styles="px-3 text-sm disabled:opacity-70"
             disable={!isAvailable && true}
           />
         </div>
