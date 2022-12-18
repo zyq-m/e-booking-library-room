@@ -13,7 +13,7 @@ export default function Home() {
         <section>
           <div className="flex justify-between items-center mb-4 px-1">
             <h2 className="text-lg">Our rooms</h2>
-            <Link href="#" className="text-xs lg:text-sm">
+            <Link href="/room/all" className="text-xs lg:text-sm">
               See more
             </Link>
           </div>
