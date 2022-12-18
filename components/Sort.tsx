@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import RadioButton from "./RadioButton";
 
@@ -22,14 +22,14 @@ const customStyles: Modal.Styles = {
 type TSort = {
   totalRoom: number;
   roomStatus: (status: boolean | string) => void;
-  search: string;
+  search?: string;
 };
 
 Modal.setAppElement("#__next");
 
 export default function Sort({ totalRoom, roomStatus, search }: TSort) {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [isAvailable, setIsAvailable] = useState(search);
+  const [isAvailable, setIsAvailable] = useState<string>("");
 
   function openModal() {
     setIsOpen(true);
@@ -55,6 +55,12 @@ export default function Sort({ totalRoom, roomStatus, search }: TSort) {
 
     roomStatus(false);
   }
+
+  useEffect(() => {
+    if (search === "all") {
+      setIsAvailable(search);
+    }
+  }, [search]);
 
   return (
     <div className="flex justify-between items-center mb-6">

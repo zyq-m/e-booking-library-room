@@ -26,7 +26,11 @@ export default function Room() {
       return rooms;
     }
 
-    if (searchRoom) {
+    if (statusRoom !== undefined) {
+      return rooms.filter(room => room.isAvailable === statusRoom);
+    }
+
+    if (searchRoom && searchRoom !== "all") {
       const result = rooms.filter(room =>
         room.name.toLowerCase().includes(searchRoom.toLowerCase())
       );
@@ -38,7 +42,7 @@ export default function Room() {
       return result;
     }
 
-    return rooms.filter(room => room.isAvailable === statusRoom);
+    return rooms;
   }
 
   useEffect(() => {
