@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from "react";
 import Rooms from "../../components/Rooms";
 import Sort from "../../components/Sort";
-import data from "../../public/data";
 import { TRoom } from "../../components/RoomCard";
+import Layout from "../../components/Layout";
+import data from "../../public/data";
 
 export default function Room() {
   const [statusRoom, setStatusRoom] = useState<boolean | string>("all");
@@ -22,13 +23,15 @@ export default function Room() {
   }, []);
 
   return (
-    <div>
-      <h2 className="mb-6 text-center text-lg">Searching Room</h2>
-      <Sort
-        totalRoom={filteredRoom.length}
-        roomStatus={status => setStatusRoom(status)}
-      />
-      <Rooms list={filteredRoom} />
-    </div>
+    <Layout>
+      <div>
+        <h2 className="mb-6 text-center text-lg">Searching Room</h2>
+        <Sort
+          totalRoom={filteredRoom.length}
+          roomStatus={status => setStatusRoom(status)}
+        />
+        <Rooms list={filteredRoom} />
+      </div>
+    </Layout>
   );
 }
