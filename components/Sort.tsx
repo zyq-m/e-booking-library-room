@@ -58,7 +58,10 @@ export default function Sort({ totalRoom, roomStatus }: TSort) {
   return (
     <div className="flex justify-between items-center mb-6">
       <p>{totalRoom} room are found</p>
-      <button className="border rounded-2xl py-1 px-3" onClick={openModal}>
+      <button
+        type="button"
+        className="border rounded-full py-1 px-4"
+        onClick={openModal}>
         Filter
       </button>
       <Modal

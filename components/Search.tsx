@@ -30,21 +30,21 @@ export default function Search() {
 
   return (
     <>
-      <label htmlFor="search" className="mb-6">
-        Find your favorite Room
-      </label>
-      <form
-        className="flex items-center my-6 px-3 py-2 gap-3 rounded-lg bg-white"
-        onSubmit={onSearch}>
-        <BiSearch size={20} />
-        <input
-          ref={searchRef}
-          className="flex-1 focus:outline-none"
-          id="search"
-          placeholder="Search here..."
-        />
+      <form onSubmit={onSearch}>
+        <label htmlFor="search" className="mb-6">
+          Find your favorite Room
+        </label>
+        <div className="flex items-center my-6 px-3 py-2 gap-3 rounded-lg bg-white">
+          <BiSearch size={20} />
+          <input
+            ref={searchRef}
+            className="flex-1 focus:outline-none"
+            id="search"
+            placeholder="Search here..."
+          />
+        </div>
       </form>
-      <div className="pb-2 mb-3 flex gap-3 w-full flex-nowrap overflow-auto">
+      <div className="pb-2 mb-4 flex gap-3 w-full flex-nowrap overflow-auto">
         {bread.map((d, i) => {
           return (
             <Breadcrumb
