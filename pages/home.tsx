@@ -11,7 +11,7 @@ export default function Home() {
         <h2 className="text-xl font-medium">Hi Alex, Let{"'"}s</h2>
         <Search />
         <section>
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-4 px-1">
             <h2 className="text-lg">Our rooms</h2>
             <Link href="#" className="text-xs lg:text-sm">
               See more

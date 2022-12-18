@@ -19,7 +19,7 @@ export default function RoomCard({
 }: TRoom) {
   //TODO: jgn lupa manipulate roomId
   return (
-    <div className="flex gap-3 items-center p-2 rounded-lg bg-gray-50">
+    <div className="flex gap-3 items-center p-2 rounded-lg bg-white">
       <Image
         loader={() => image}
         src="img.jpg"
