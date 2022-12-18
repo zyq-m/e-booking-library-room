@@ -22,13 +22,14 @@ const customStyles: Modal.Styles = {
 type TSort = {
   totalRoom: number;
   roomStatus: (status: boolean | string) => void;
+  search: string;
 };
 
 Modal.setAppElement("#__next");
 
-export default function Sort({ totalRoom, roomStatus }: TSort) {
+export default function Sort({ totalRoom, roomStatus, search }: TSort) {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [isAvailable, setIsAvailable] = useState("all");
+  const [isAvailable, setIsAvailable] = useState(search);
 
   function openModal() {
     setIsOpen(true);
