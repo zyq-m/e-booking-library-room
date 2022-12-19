@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useRouter } from "next/router";
 import { BiSearch } from "react-icons/bi";
 import Breadcrumb, { TBreadcrumb } from "./Breadcrumb";
 
@@ -9,6 +10,7 @@ const data: TBreadcrumb[] = [
 ];
 
 export default function Search() {
+  const router = useRouter();
   const [bread, setBread] = useState(data);
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -25,7 +27,7 @@ export default function Search() {
 
   function onSearch(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(searchRef.current?.value);
+    router.push(`/room/${searchRef.current?.value}`);
   }
 
   return (
