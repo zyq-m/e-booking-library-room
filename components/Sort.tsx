@@ -1,23 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Modal from "react-modal";
 import RadioButton from "./RadioButton";
-
-const customStyles: Modal.Styles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    transform: "translate(-50%, -50%)",
-    borderRadius: "1rem",
-    border: "none",
-    paddingInline: "2rem",
-    paddingBlock: "1.5rem",
-  },
-  overlay: {
-    backgroundColor: "rgba(36, 36, 36, 0.50)",
-  },
-};
+import CustomModal from "./Modal";
+import useModal from "../hooks/useModal";
 
 type TSort = {
   totalRoom: number;
@@ -25,19 +9,9 @@ type TSort = {
   search?: string;
 };
 
-Modal.setAppElement("#__next");
-
 export default function Sort({ totalRoom, roomStatus, search }: TSort) {
-  const [modalIsOpen, setIsOpen] = useState(false);
   const [isAvailable, setIsAvailable] = useState<string>("");
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
+  const { modalIsOpen, closeModal, openModal } = useModal();
 
   function handleRadio(e: React.ChangeEvent<HTMLInputElement>): void {
     setIsAvailable(e.target.value);
@@ -71,12 +45,7 @@ export default function Sort({ totalRoom, roomStatus, search }: TSort) {
         onClick={openModal}>
         Filter
       </button>
-      <Modal
-        closeTimeoutMS={200}
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal">
+      <CustomModal modalIsOpen={modalIsOpen} closeModal={closeModal}>
         <h3 className="mb-4 font-semibold">Filter by room status</h3>
         <div className="grid gap-4">
           <RadioButton
@@ -104,7 +73,7 @@ export default function Sort({ totalRoom, roomStatus, search }: TSort) {
             checked={isAvailable === "notAvailable"}
           />
         </div>
-      </Modal>
+      </CustomModal>
     </div>
   );
 }
