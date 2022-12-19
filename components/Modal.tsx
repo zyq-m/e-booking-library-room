@@ -23,7 +23,7 @@ Modal.setAppElement("#__next");
 type TModel = {
   children: React.ReactNode;
   modalIsOpen: boolean;
-  closeModal?: () => void;
+  closeModal: () => void;
 };
 
 export default function CustomModal({
