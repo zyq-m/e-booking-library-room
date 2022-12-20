@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Button from "./Button";
-import CustomModal from "./Modal";
+import BookingForm from "./BookingForm";
 import useModal from "../hooks/useModal";
 
 export type TRoom = {
@@ -20,7 +20,7 @@ export default function RoomCard({
   roomId,
 }: TRoom) {
   //TODO: jgn lupa manipulate roomId
-  const { closeModal, modalIsOpen, openModal } = useModal();
+  const { openModal, closeModal, modalIsOpen } = useModal();
 
   return (
     <div className="flex gap-3 items-center p-2 rounded-lg bg-white">
@@ -52,40 +52,8 @@ export default function RoomCard({
             onClick={openModal}
           />
         </div>
+        <BookingForm roomId={roomId} modal={{ closeModal, modalIsOpen }} />
       </div>
-      <CustomModal modalIsOpen={modalIsOpen} closeModal={closeModal}>
-        <h3 className="mb-4 font-semibold">Booking room</h3>
-        <form>
-          <div className="flex gap-4 mb-4">
-            <Input id="from" label="From" type="time" />
-            <Input id="to" label="To" type="time" />
-          </div>
-          <Button label="Book Now" styles="w-full rounded-lg" />
-        </form>
-      </CustomModal>
-    </div>
-  );
-}
-
-type TInput = {
-  label: string;
-  id: string;
-  type: React.HTMLInputTypeAttribute;
-  ref?: React.LegacyRef<HTMLInputElement> | undefined;
-};
-
-export function Input({ label, id, type, ref }: TInput) {
-  return (
-    <div>
-      <label htmlFor={id} className="block text-sm ml-1">
-        {label}
-      </label>
-      <input
-        ref={ref}
-        type={type}
-        id={id}
-        className="border px-3 py-2 rounded-lg"
-      />
     </div>
   );
 }
