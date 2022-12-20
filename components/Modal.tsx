@@ -20,8 +20,8 @@ const customStyles: Modal.Styles = {
 
 Modal.setAppElement("#__next");
 
-type TModel = {
-  children: React.ReactNode;
+export type TModal = {
+  children?: React.ReactNode;
   modalIsOpen: boolean;
   closeModal: () => void;
 };
@@ -30,7 +30,7 @@ export default function CustomModal({
   children,
   modalIsOpen,
   closeModal,
-}: TModel) {
+}: TModal) {
   return (
     <Modal
       closeTimeoutMS={200}
