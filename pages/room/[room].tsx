@@ -6,32 +6,27 @@ import { TRoom } from "../../components/RoomCard";
 import Layout from "../../components/Layout";
 import data from "../../public/data";
 
-export default function Room() {
+export default function Room({ data }: { data: TRoom[] }) {
   const router = useRouter();
   const { room } = router.query;
   const [statusRoom, setStatusRoom] = useState<boolean | undefined | string>(
     undefined
   );
-  const [rooms, setRooms] = useState<TRoom[]>(data);
   const [searchRoom, setSearchRoom] = useState<string>("");
 
-  const filteredRoom = useMemo(getFilteredRoom, [
-    rooms,
-    searchRoom,
-    statusRoom,
-  ]);
+  const filteredRoom = useMemo(getFilteredRoom, [data, searchRoom, statusRoom]);
 
   function getFilteredRoom() {
     if (statusRoom === "all") {
-      return rooms;
+      return data;
     }
 
     if (statusRoom !== undefined) {
-      return rooms.filter(room => room.isAvailable === statusRoom);
+      return data.filter(room => room.isAvailable === statusRoom);
     }
 
     if (searchRoom && searchRoom !== "all") {
-      const result = rooms.filter(room =>
+      const result = data.filter(room =>
         room.name.toLowerCase().includes(searchRoom.toLowerCase())
       );
 
@@ -42,7 +37,7 @@ export default function Room() {
       return result;
     }
 
-    return rooms;
+    return data;
   }
 
   useEffect(() => {
@@ -62,4 +57,8 @@ export default function Room() {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps() {
+  return { props: { data: data } };
 }

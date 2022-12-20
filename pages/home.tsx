@@ -3,8 +3,10 @@ import Link from "next/link";
 import Layout from "../components/Layout";
 import Carousel from "../components/Carousel";
 import Search from "../components/Search";
+import data from "../public/data";
+import { TRoom } from "../components/RoomCard";
 
-export default function Home() {
+export default function Home({ data }: { data: TRoom[] }) {
   return (
     <Layout>
       <div>
@@ -17,9 +19,13 @@ export default function Home() {
               See more
             </Link>
           </div>
-          <Carousel />
+          <Carousel data={data} />
         </section>
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps() {
+  return { props: { data: data } };
 }
