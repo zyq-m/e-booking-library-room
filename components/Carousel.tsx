@@ -2,9 +2,9 @@
 import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel as CarouselContainer } from "react-responsive-carousel";
-import data from "../public/data";
+import { TRoom } from "./RoomCard";
 
-export default function Carousel() {
+export default function Carousel({ data }: { data: TRoom[] }) {
   return (
     <CarouselContainer
       className="rounded-xl overflow-hidden"
