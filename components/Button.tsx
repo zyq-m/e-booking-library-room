@@ -6,6 +6,7 @@ type TButon = {
   disable?: boolean;
   onClick?: () => void;
   type?: "button" | "submit" | "reset" | undefined;
+  id?: string;
 };
 
 export default function Button({
@@ -14,13 +15,15 @@ export default function Button({
   disable,
   onClick,
   type,
+  id,
 }: TButon) {
   return (
     <button
       type={type || "button"}
       className={`${styles} p-2 rounded-3xl bg-blue-400 text-white`}
       onClick={onClick}
-      disabled={disable}>
+      disabled={disable}
+      id={id}>
       {label}
     </button>
   );
