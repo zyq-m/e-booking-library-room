@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Button from "./Button";
 import BookingForm from "./BookingForm";
+import PopupModal from "./PopupModal";
 import useModal from "../hooks/useModal";
 
 export type TRoom = {
@@ -60,6 +61,7 @@ export default function RoomCard({
                 onClick={openModal}
               />
               {/* // todo: cancel popup modal "You cancel the book" */}
+              <PopupModal modal={{ closeModal, modalIsOpen }} />
             </>
           ) : (
             <>
