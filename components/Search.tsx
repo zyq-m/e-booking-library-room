@@ -33,7 +33,7 @@ export default function Search() {
   return (
     <>
       <form onSubmit={onSearch}>
-        <label htmlFor="search" className="mb-6">
+        <label htmlFor="search" className="mb-6 ml-1">
           Find your favorite Room
         </label>
         <div className="flex items-center my-6 px-3 py-2 gap-3 rounded-lg bg-white">

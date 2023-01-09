@@ -10,6 +10,8 @@ export type TRoom = {
   capacity: number;
   isAvailable: boolean;
   roomId: string;
+  isBooked?: boolean;
+  time?: string;
 };
 
 export default function RoomCard({
@@ -18,6 +20,8 @@ export default function RoomCard({
   capacity,
   isAvailable,
   roomId,
+  isBooked,
+  time,
 }: TRoom) {
   //TODO: jgn lupa manipulate roomId
   const { openModal, closeModal, modalIsOpen } = useModal();
@@ -40,19 +44,44 @@ export default function RoomCard({
       />
       <div className="flex-1">
         <p className="font-medium text-lg capitalize">{name}</p>
-        <p className="text-sm">For {capacity} person</p>
+        <p className="text-sm text-gray-500 flex items-center gap-3">
+          For {capacity} person
+          <span className="text-xs text-gray-400">{time}</span>
+        </p>
+        {isBooked}
         <div className="flex justify-between items-center">
-          <p className={isAvailable ? "text-green-500" : "text-red-500 opac"}>
-            {isAvailable ? "Available" : "Not available"}
-          </p>
-          <Button
-            label="Book now"
-            styles="px-3 text-sm disabled:opacity-70"
-            disable={!isAvailable && true}
-            onClick={openModal}
-          />
+          {isBooked ? (
+            <>
+              <p className="text-blue-400">Booked</p>
+              <Button
+                label="Cancel"
+                styles="px-3 text-sm bg-red-500 disabled:opacity-70"
+                disable={isAvailable && true}
+                onClick={openModal}
+              />
+              {/* // todo: cancel popup modal "You cancel the book" */}
+            </>
+          ) : (
+            <>
+              <p
+                className={
+                  isAvailable ? "text-green-500" : "text-red-500 opac"
+                }>
+                {isAvailable ? "Available" : "Not available"}
+              </p>
+              <Button
+                label="Book now"
+                styles="px-3 text-sm disabled:opacity-70"
+                disable={!isAvailable && true}
+                onClick={openModal}
+              />
+              <BookingForm
+                roomId={roomId}
+                modal={{ closeModal, modalIsOpen }}
+              />
+            </>
+          )}
         </div>
-        <BookingForm roomId={roomId} modal={{ closeModal, modalIsOpen }} />
       </div>
     </div>
   );
