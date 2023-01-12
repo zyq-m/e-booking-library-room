@@ -3,6 +3,7 @@ import React, { memo } from "react";
 export type THistory = {
   name: string;
   date: string;
+  time?: string;
 };
 
 type THList = {
