@@ -1,4 +1,6 @@
 import { TRoom } from "../components/RoomCard";
+import { THistory } from "../components/BookingHistoryList";
+import { TRecords } from "../pages/admin/records/booking";
 
 const data: TRoom[] = [
   {
@@ -27,31 +29,18 @@ const data: TRoom[] = [
   },
 ];
 
-type THistory = TRoom & {
-  date: string;
-  duration: number;
-};
-
-export const bookHistory: THistory[] = [
+export const history: TRecords[] = [
   {
+    user: "User 1",
     name: "Meeting room",
-    roomId: "room3",
-    capacity: 5,
-    image:
-      "https://gurney.ghotel.com.my/img/asset/bWFpbi9pbWFnZXMvbWVldGluZ3MvY29uZmVyZW5jZS1pLS0taWktMDEtdjUuanBn?w=1920&fit=crop&s=027ab1a7a42b5feb2a3183fe3e952455",
-    isAvailable: true,
-    date: "06-10-2023",
-    duration: 3,
+    date: "23 Jan 2022",
+    time: "10:00",
   },
   {
+    user: "User 2",
     name: "Karel room 1",
-    roomId: "room1",
-    capacity: 1,
-    image:
-      "https://gurney.ghotel.com.my/img/asset/bWFpbi9pbWFnZXMvbWVldGluZ3MvY29uZmVyZW5jZS1pLS0taWktMDEtdjUuanBn?w=1920&fit=crop&s=027ab1a7a42b5feb2a3183fe3e952455",
-    isAvailable: true,
-    date: "09-10-2023",
-    duration: 2,
+    date: "25 Jan 2022",
+    time: "10:00",
   },
 ];
 
