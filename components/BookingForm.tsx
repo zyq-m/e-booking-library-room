@@ -1,8 +1,10 @@
 import React, { useRef, forwardRef } from "react";
 import moment from "moment";
+
 import CustomModal from "./Modal";
 import Button from "./Button";
 import { TModal } from "./Modal";
+import Input from "./Input";
 
 type TForm = {
   roomId: string;
@@ -59,27 +61,3 @@ export default function BookingForm({ roomId, modal }: TForm) {
     </CustomModal>
   );
 }
-
-type TInput = {
-  label: string;
-  id: string;
-  type: React.HTMLInputTypeAttribute;
-};
-
-const Input = React.forwardRef<HTMLInputElement, TInput>((props, ref) => {
-  return (
-    <div>
-      <label htmlFor={props.id} className="block text-sm text-gray-500 ml-1">
-        {props.label}
-      </label>
-      <input
-        ref={ref}
-        type={props.type}
-        id={props.id}
-        className="border px-3 py-2 rounded-lg"
-      />
-    </div>
-  );
-});
-
-Input.displayName = "Input";
