@@ -16,6 +16,7 @@ export default function Add() {
   return (
     <Layout>
       <div>
+        <h2 className="mb-4">Add new admin</h2>
         <Input
           id="email"
           label="Email"

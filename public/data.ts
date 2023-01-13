@@ -1,6 +1,5 @@
 import { TRoom } from "../components/RoomCard";
-import { THistory } from "../components/BookingHistoryList";
-import { TRecords } from "../pages/admin/records/booking";
+import { TRecords } from "../components/BookingList";
 
 const data: TRoom[] = [
   {
@@ -33,14 +32,72 @@ export const history: TRecords[] = [
   {
     user: "User 1",
     name: "Meeting room",
-    date: "23 Jan 2022",
+    date: "23/01/22",
     time: "10:00",
+    duration: "2 hours",
   },
   {
     user: "User 2",
     name: "Karel room 1",
-    date: "25 Jan 2022",
+    date: "25/01/22",
     time: "10:00",
+    duration: "2 hours",
+  },
+  {
+    user: "User 3",
+    name: "Meeting room",
+    date: "23/01/22",
+    time: "10:00",
+    duration: "2 hours",
+  },
+  {
+    user: "User 4",
+    name: "Karel room 1",
+    date: "25/01/22",
+    time: "10:00",
+    duration: "2 hours",
+  },
+  {
+    user: "User 5",
+    name: "Meeting room",
+    date: "23/01/22",
+    time: "10:00",
+    duration: "2 hours",
+  },
+  {
+    user: "User 6",
+    name: "Karel room 1",
+    date: "25/01/22",
+    time: "10:00",
+    duration: "2 hours",
+  },
+  {
+    user: "User 7",
+    name: "Meeting room",
+    date: "23/01/22",
+    time: "10:00",
+    duration: "2 hours",
+  },
+  {
+    user: "User 8",
+    name: "Karel room 1",
+    date: "25/01/22",
+    time: "10:00",
+    duration: "2 hours",
+  },
+  {
+    user: "User 9",
+    name: "Meeting room",
+    date: "23/01/22",
+    time: "10:00",
+    duration: "2 hours",
+  },
+  {
+    user: "User 10",
+    name: "Karel room 1",
+    date: "25/01/22",
+    time: "10:00",
+    duration: "2 hours",
   },
 ];
 
