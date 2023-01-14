@@ -26,12 +26,13 @@ export default function Dashboard({ list }: TRecordsList) {
           approvedList={list => setBooking(list)}
         />
         <div className="fixed right-0 bottom-0 mr-4 mb-6">
-          <Button
-            label="Reject"
+          <button
+            type="button"
             id="reject"
-            styles="px-4 bg-transparent text-red-500"
             onClick={onReject}
-          />
+            className="px-4 text-red-500">
+            Reject
+          </button>
           <Button
             label="Approve"
             id="approve"
