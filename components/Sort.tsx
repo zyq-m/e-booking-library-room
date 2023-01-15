@@ -51,10 +51,12 @@ export default function Sort({ totalRoom, roomStatus, search }: TSort) {
           <RadioButton
             id="all"
             label="All"
-            name="isAvailable"
+            name="all"
             value="all"
             onChange={handleRadio}
-            checked={isAvailable === "all"}
+            checked={
+              isAvailable !== "available" && isAvailable !== "notAvailable"
+            }
           />
           <RadioButton
             id="available"

@@ -49,7 +49,6 @@ export default function RoomCard({
           For {capacity} person
           <span className="text-xs text-gray-400">{time}</span>
         </p>
-        {isBooked}
         <div className="flex justify-between items-center">
           {isBooked ? (
             <>
