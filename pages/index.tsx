@@ -1,13 +1,14 @@
 import React, { useRef, useState } from "react";
 
 import { useRouter } from "next/router";
+
 import Button from "../components/Button";
 import Input from "../components/Input";
 import useSupabase from "../lib/hooks/useSupabaseAuth";
 import useAddUser from "../lib/hooks/useAddUser";
 
 export default function Home() {
-  const { supabase } = useSupabase();
+  const { supabase, session } = useSupabase();
   const addUser = useAddUser();
 
   const [signUp, setSignUp] = useState<boolean>(false);
