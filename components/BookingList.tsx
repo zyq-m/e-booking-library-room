@@ -18,11 +18,11 @@ export type TRecordsList = {
 function BookingList({ list, checkbox, approvedList }: TRecordsList) {
   const [booking, setBooking] = useState<string[]>([]);
 
-  function onChange(user: string, e: React.ChangeEvent<HTMLInputElement>) {
+  function onChange(bookingId: string, e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      setBooking(prev => [user, ...prev]);
+      setBooking(prev => [bookingId, ...prev]);
     } else {
-      setBooking(prev => prev.filter(prop => prop !== user));
+      setBooking(prev => prev.filter(prop => prop !== bookingId));
     }
   }
 
@@ -52,18 +52,18 @@ function BookingList({ list, checkbox, approvedList }: TRecordsList) {
         </tr>
       </thead>
       <tbody>
-        {list.map((li, i) => {
+        {list.map(li => {
           let from = moment(`${li.from}`, "HH:mm");
           let to = moment(`${li.to}`, "HH:mm");
 
           return (
-            <tr key={i} className="border-y">
+            <tr key={li.bookingId} className="border-y">
               {checkbox && (
                 <td>
                   <input
                     type="checkbox"
                     className="ml-2"
-                    onChange={e => onChange(li.user.name, e)}
+                    onChange={e => onChange(li.bookingId, e)}
                   />
                 </td>
               )}
