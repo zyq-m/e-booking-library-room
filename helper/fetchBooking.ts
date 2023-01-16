@@ -21,3 +21,22 @@ export async function fetchNotApprovedRoom() {
 
   return booking;
 }
+
+export async function fetchBooking() {
+  const booking = await supabase.from("booking").select(
+    `
+    user(
+      name
+      ),
+      room(
+        name
+    ),
+    from,
+    to,
+    date,
+    bookingId
+    `
+  );
+
+  return booking;
+}
