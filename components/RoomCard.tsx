@@ -4,6 +4,8 @@ import Button from "./Button";
 import BookingForm from "./BookingForm";
 import PopupModal from "./PopupModal";
 import useModal from "../hooks/useModal";
+import { cancelBooking } from "../helper/cancelBooking";
+import { useRouter } from "next/router";
 
 export type TRoom = {
   image: string;
@@ -26,6 +28,7 @@ export default function RoomCard({
 }: TRoom) {
   //TODO: jgn lupa manipulate roomId
   const { openModal, closeModal, modalIsOpen } = useModal();
+  const router = useRouter();
 
   return (
     <div className="flex gap-3 items-center p-2 rounded-lg bg-white">
@@ -55,9 +58,14 @@ export default function RoomCard({
               <p className="text-blue-400">Booked</p>
               <Button
                 label="Cancel"
-                styles="px-3 text-sm bg-red-500"
-                disable={isAvailable && true}
-                onClick={openModal}
+                styles="px-3 text-sm bg-red-400"
+                disable={!isAvailable && true}
+                onClick={() =>
+                  cancelBooking(roomId).then(() => {
+                    alert("You cancel the book");
+                    router.push("/home");
+                  })
+                }
               />
               {/* // todo: cancel popup modal "You cancel the book" */}
               <PopupModal modal={{ closeModal, modalIsOpen }} />
