@@ -1,6 +1,9 @@
 import { supabase } from "../lib/supabase";
+import { fetchUserId } from "./fetchUserId";
 
-export async function fetchUser(userId: string | undefined) {
+export async function fetchUser(jwt: string | undefined) {
+  const userId = await fetchUserId(jwt);
+
   const { data, error } = await supabase
     .from("user")
     .select("name")
