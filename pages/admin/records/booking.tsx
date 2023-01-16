@@ -1,9 +1,10 @@
 import React from "react";
-import BookingList, { TRecordsList } from "../../../components/BookingList";
+import BookingList from "../../../components/BookingList";
 import Layout from "../../../components/Layout";
-import { history } from "../../../public/data";
+import { fetchBooking } from "../../../helper/fetchBooking";
+import { BookingInterface } from "..";
 
-export default function Booking({ list }: TRecordsList) {
+export default function Booking({ list }: { list: BookingInterface[] }) {
   return (
     <Layout>
       <div>
@@ -15,5 +16,6 @@ export default function Booking({ list }: TRecordsList) {
 }
 
 export async function getServerSideProps() {
-  return { props: { list: history } };
+  const booking = await fetchBooking();
+  return { props: { list: booking.data } };
 }
