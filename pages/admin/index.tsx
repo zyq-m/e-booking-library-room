@@ -3,9 +3,22 @@ import React, { useState } from "react";
 import BookingList, { TRecordsList } from "../../components/BookingList";
 import Button from "../../components/Button";
 import Layout from "../../components/Layout";
-import { history } from "../../public/data";
+import { fetchNotApprovedRoom } from "../../helper/fetchBooking";
+import { Room } from "../booking";
 
-export default function Dashboard({ list }: TRecordsList) {
+export interface NotApproved {
+  from: string;
+  to: string;
+  date: string;
+  room: Room;
+  user: User;
+}
+
+interface User {
+  name: string;
+}
+
+export default function Dashboard({ list }: { list: NotApproved[] }) {
   const [booking, setBooking] = useState<string[]>([]);
 
   function onApprove() {
@@ -46,5 +59,6 @@ export default function Dashboard({ list }: TRecordsList) {
 }
 
 export async function getServerSideProps() {
-  return { props: { list: history } };
+  const booking = await fetchNotApprovedRoom();
+  return { props: { list: booking.data } };
 }
