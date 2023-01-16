@@ -30,6 +30,8 @@ export default function Dashboard({ list }: { list: NotApproved[] }) {
       await approveBooking(booking);
       alert(`${booking.length} booking have been approved`);
       router.push("/admin");
+      // clear array
+      // ! but array not empty
       setBooking([]);
     } catch (error) {
       console.log(error);
@@ -37,6 +39,7 @@ export default function Dashboard({ list }: { list: NotApproved[] }) {
   }
 
   function onReject() {
+    setBooking([]);
     alert(`${booking.length} booking have been rejected`);
   }
 
