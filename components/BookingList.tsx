@@ -1,7 +1,7 @@
 import React, { memo, useState, useEffect } from "react";
 import { THistory } from "./BookingHistoryList";
 
-import { NotApproved } from "../pages/admin";
+import { BookingInterface } from "../pages/admin";
 import moment from "moment";
 
 export type TRecords = THistory & {
@@ -10,7 +10,7 @@ export type TRecords = THistory & {
 };
 
 export type TRecordsList = {
-  list: NotApproved[];
+  list: BookingInterface[];
   checkbox: boolean;
   approvedList?: (param: string[]) => void;
 };
@@ -74,7 +74,7 @@ function BookingList({ list, checkbox, approvedList }: TRecordsList) {
                 <td className={`text-left py-4 ${!checkbox && `pl-2`}`}>
                   {li.user.name}
                 </td>
-                <td className="text-right px-8">{li.room.name}</td>
+                <td className="text-right px-8 capitalize">{li.room.name}</td>
                 <td className="text-center">{from.format("HH:mm")}</td>
                 <td className="text-right pr-3">
                   {to.diff(from, "hours")} hours
