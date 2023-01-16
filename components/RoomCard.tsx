@@ -55,7 +55,7 @@ export default function RoomCard({
               <p className="text-blue-400">Booked</p>
               <Button
                 label="Cancel"
-                styles="px-3 text-sm bg-red-500 disabled:opacity-70"
+                styles="px-3 text-sm bg-red-500"
                 disable={isAvailable && true}
                 onClick={openModal}
               />
@@ -72,7 +72,7 @@ export default function RoomCard({
               </p>
               <Button
                 label="Book now"
-                styles="px-3 text-sm disabled:opacity-70"
+                styles="px-3 text-sm"
                 disable={!isAvailable && true}
                 onClick={openModal}
               />
