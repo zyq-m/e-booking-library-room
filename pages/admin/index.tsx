@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
-import BookingList, { TRecordsList } from "../../components/BookingList";
+import BookingList from "../../components/BookingList";
 import Button from "../../components/Button";
 import Layout from "../../components/Layout";
 import { fetchNotApprovedRoom } from "../../helper/fetchBooking";
 import { Room } from "../booking";
+import { approveBooking } from "../../helper/bookRoom";
+import { useRouter } from "next/router";
 
 export interface NotApproved {
   from: string;
@@ -12,6 +14,7 @@ export interface NotApproved {
   date: string;
   room: Room;
   user: User;
+  bookingId: string;
 }
 
 interface User {
@@ -20,13 +23,21 @@ interface User {
 
 export default function Dashboard({ list }: { list: NotApproved[] }) {
   const [booking, setBooking] = useState<string[]>([]);
+  const router = useRouter();
 
-  function onApprove() {
-    console.log(booking);
+  async function onApprove() {
+    try {
+      await approveBooking(booking);
+      alert(`${booking.length} booking have been approved`);
+      router.push("/admin");
+      setBooking([]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function onReject() {
-    console.log(booking);
+    alert(`${booking.length} booking have been rejected`);
   }
 
   return (
