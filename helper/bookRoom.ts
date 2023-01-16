@@ -18,3 +18,14 @@ export async function bookRoom(
 
   return await Promise.all([booking, update]);
 }
+
+export async function approveBooking(bookingId: string[]) {
+  const approvalList = bookingId.map(async id => {
+    await supabase
+      .from("booking")
+      .update({ approved: true })
+      .eq("bookingId", id);
+  });
+
+  return await Promise.all(approvalList);
+}
