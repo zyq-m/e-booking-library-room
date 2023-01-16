@@ -1,21 +1,28 @@
-import React, { useRef, forwardRef } from "react";
+import React, { useRef, useState } from "react";
 import moment from "moment";
 
 import CustomModal from "./Modal";
 import Button from "./Button";
 import { TModal } from "./Modal";
 import Input from "./Input";
+import { bookRoom } from "../helper/bookRoom";
+import useSupabase from "../lib/hooks/useSupabaseAuth";
+import { useRouter } from "next/router";
 
 type TForm = {
   roomId: string;
   modal: TModal;
+  token?: string | undefined;
 };
 
-export default function BookingForm({ roomId, modal }: TForm) {
+export default function BookingForm({ roomId, modal, token }: TForm) {
   const fromRef = useRef<HTMLInputElement>(null);
   const toRef = useRef<HTMLInputElement>(null);
+  const { session } = useSupabase();
+  const [disableBtn, setDisableBtn] = useState(false);
+  const router = useRouter();
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e?.preventDefault();
 
     const from = moment.duration(fromRef.current?.value, "h");
@@ -28,16 +35,34 @@ export default function BookingForm({ roomId, modal }: TForm) {
 
     if (duration < 0) {
       alert("You cannot book during this hour");
+      return;
     }
 
-    if (fromRef.current?.value == "" && toRef.current?.value == "") {
+    if (fromRef.current?.value == "" || toRef.current?.value == "") {
       alert("Please select time");
+      return;
     }
 
-    console.log(roomId, fromRef.current?.value, toRef.current?.value);
+    console.log(roomId, fromRef.current?.value, toRef.current?.value, token);
+    try {
+      setDisableBtn(true);
 
-    // todo: push notification to user after book
-    // modal.closeModal();
+      const booking = await bookRoom(
+        session?.access_token,
+        fromRef.current?.value,
+        toRef.current?.value,
+        roomId
+      );
+
+      // todo: push notification to user after book
+      alert("Room successfully booked");
+      modal.closeModal();
+      router.push("/home");
+    } catch (error) {
+      console.log(error);
+    }
+
+    setDisableBtn(false);
   }
 
   return (
@@ -56,6 +81,7 @@ export default function BookingForm({ roomId, modal }: TForm) {
           id="book"
           styles="w-full rounded-lg"
           type="submit"
+          disable={disableBtn}
         />
       </form>
     </CustomModal>
