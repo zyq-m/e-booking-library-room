@@ -8,7 +8,7 @@ import { Room } from "../booking";
 import { approveBooking } from "../../helper/bookRoom";
 import { useRouter } from "next/router";
 
-export interface NotApproved {
+export interface BookingInterface {
   from: string;
   to: string;
   date: string;
@@ -21,7 +21,7 @@ interface User {
   name: string;
 }
 
-export default function Dashboard({ list }: { list: NotApproved[] }) {
+export default function Dashboard({ list }: { list: BookingInterface[] }) {
   const [booking, setBooking] = useState<string[]>([]);
   const router = useRouter();
 
