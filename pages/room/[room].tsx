@@ -1,10 +1,13 @@
 import React, { useState, useMemo, useEffect } from "react";
+import { GetServerSidePropsContext } from "next";
+
 import { useRouter } from "next/router";
 import Rooms from "../../components/Rooms";
 import Sort from "../../components/Sort";
 import { TRoom } from "../../components/RoomCard";
 import Layout from "../../components/Layout";
-import data from "../../public/data";
+
+import { fetchRooms, fetchRoomByName } from "../../helper/fetchRoom";
 
 export default function Room({ data }: { data: TRoom[] }) {
   const router = useRouter();
@@ -14,7 +17,7 @@ export default function Room({ data }: { data: TRoom[] }) {
   );
   const [searchRoom, setSearchRoom] = useState<string>("");
 
-  const filteredRoom = useMemo(getFilteredRoom, [data, searchRoom, statusRoom]);
+  const filteredRoom = useMemo(getFilteredRoom, [data, statusRoom]);
 
   function getFilteredRoom() {
     if (statusRoom === "all") {
@@ -23,18 +26,6 @@ export default function Room({ data }: { data: TRoom[] }) {
 
     if (statusRoom !== undefined) {
       return data.filter(room => room.isAvailable === statusRoom);
-    }
-
-    if (searchRoom && searchRoom !== "all") {
-      const result = data.filter(room =>
-        room.name.toLowerCase().includes(searchRoom.toLowerCase())
-      );
-
-      if (statusRoom !== undefined) {
-        return result.filter(room => room.isAvailable === statusRoom);
-      }
-
-      return result;
     }
 
     return data;
@@ -59,6 +50,22 @@ export default function Room({ data }: { data: TRoom[] }) {
   );
 }
 
-export async function getServerSideProps() {
-  return { props: { data: data } };
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const {
+    query: { room },
+  } = context;
+  // get token to get user id
+  const token = JSON.parse(
+    context.req.cookies?.["supabase-auth-token"] || ""
+  )[0];
+
+  let data;
+
+  if (room == "all") {
+    data = await fetchRooms();
+  } else {
+    data = await fetchRoomByName(room);
+  }
+
+  return { props: { data: data?.data } };
 }
