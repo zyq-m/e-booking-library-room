@@ -28,7 +28,10 @@ export default function Home() {
 
     setError("");
 
-    if (error) setError(error.message);
+    if (error) {
+      setError(error.message);
+      return;
+    }
     router.push("/home");
   }
 
