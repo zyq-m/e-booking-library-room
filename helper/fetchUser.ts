@@ -11,3 +11,7 @@ export async function fetchUser(jwt: string | undefined) {
 
   return { data, error };
 }
+
+export async function fetchUsers() {
+  return await supabase.from("user").select();
+}
