@@ -6,7 +6,7 @@ import Button from "./Button";
 import { TModal } from "./Modal";
 import Input from "./Input";
 import { bookRoom } from "../helper/bookRoom";
-import useSupabase from "../lib/hooks/useSupabaseAuth";
+import useSupabase from "../hooks/useSupabaseAuth";
 import { useRouter } from "next/router";
 
 type TForm = {
@@ -18,7 +18,7 @@ type TForm = {
 export default function BookingForm({ roomId, modal, token }: TForm) {
   const fromRef = useRef<HTMLInputElement>(null);
   const toRef = useRef<HTMLInputElement>(null);
-  const { session } = useSupabase();
+  const { supabase } = useSupabase();
   const [disableBtn, setDisableBtn] = useState(false);
   const router = useRouter();
 
@@ -44,11 +44,12 @@ export default function BookingForm({ roomId, modal, token }: TForm) {
     }
 
     console.log(roomId, fromRef.current?.value, toRef.current?.value, token);
+
     try {
       setDisableBtn(true);
 
-      const booking = await bookRoom(
-        session?.access_token,
+      await bookRoom(
+        supabase,
         fromRef.current?.value,
         toRef.current?.value,
         roomId

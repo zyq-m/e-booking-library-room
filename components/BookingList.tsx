@@ -56,7 +56,7 @@ function BookingList({ list, checkbox, approvedList }: TRecordsList) {
           </tr>
         </thead>
         <tbody>
-          {list.map(li => {
+          {list?.map(li => {
             let from = moment(`${li.from}`, "HH:mm");
             let to = moment(`${li.to}`, "HH:mm");
 

@@ -1,13 +1,13 @@
-import { supabase } from "../lib/supabase";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { fetchUserId } from "./fetchUserId";
 
 export async function bookRoom(
-  token: string | undefined,
+  supabase: SupabaseClient,
   from: string | undefined,
   to: string | undefined,
   roomId: string
 ) {
-  const id = await fetchUserId(token);
+  const id = await fetchUserId(supabase);
   const booking = supabase
     .from("booking")
     .insert({ userId: id, from: from, to: to, roomId: roomId }); // add record to booking table
@@ -19,7 +19,10 @@ export async function bookRoom(
   return await Promise.all([booking, update]);
 }
 
-export async function approveBooking(bookingId: string[]) {
+export async function approveBooking(
+  supabase: SupabaseClient,
+  bookingId: string[]
+) {
   const approvalList = bookingId.map(async id => {
     await supabase
       .from("booking")

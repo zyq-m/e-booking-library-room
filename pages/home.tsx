@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import Layout from "../components/Layout";
 import Carousel from "../components/Carousel";
 import Search from "../components/Search";
 import { TRoom } from "../components/RoomCard";
 
-import { fetchUser } from "../helper/fetchUser";
-import { fetchRooms } from "../helper/fetchRoom";
-import { GetServerSidePropsContext } from "next";
+import useFetchName from "../hooks/useFetchName";
+import useFetchRooms from "../hooks/useFetchRooms";
 
 interface Data {
   data: {
@@ -16,12 +15,15 @@ interface Data {
   };
 }
 
-export default function Home({ data }: Data) {
+export default function Home() {
+  const name = useFetchName();
+  const rooms = useFetchRooms({});
+
   return (
     <Layout>
       <div>
         <h2 className="text-xl font-medium ml-1">
-          Hi {data.name}, Let{"'"}s
+          Hi {name}, Let{"'"}s
         </h2>
         <Search />
         <section>
@@ -31,28 +33,9 @@ export default function Home({ data }: Data) {
               See more
             </Link>
           </div>
-          <Carousel data={data.data} />
+          <Carousel data={rooms} />
         </section>
       </div>
     </Layout>
   );
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const token = JSON.parse(
-    context.req.cookies?.["supabase-auth-token"] || ""
-  )[0];
-  const user = fetchUser(token);
-  const rooms = fetchRooms();
-
-  try {
-    const response = await Promise.all([user, rooms]);
-
-    const name = response[0].data?.[0]?.name;
-    const roomData = response[1]?.data;
-
-    return { props: { data: { data: roomData, name: name } } };
-  } catch (error) {
-    console.log(error);
-  }
 }

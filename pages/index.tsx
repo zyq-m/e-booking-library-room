@@ -1,16 +1,14 @@
 import React, { useRef, useState } from "react";
-
 import { useRouter } from "next/router";
 
 import Button from "../components/Button";
 import Input from "../components/Input";
-import useSupabase from "../lib/hooks/useSupabaseAuth";
-import useAddUser from "../lib/hooks/useAddUser";
+import useSupabase from "../hooks/useSupabaseAuth";
+import { login } from "../helper/login";
+import { addUser } from "../helper/addUser";
 
 export default function Home() {
-  const { supabase, session } = useSupabase();
-  const addUser = useAddUser();
-
+  const { supabase } = useSupabase();
   const [signUp, setSignUp] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<boolean>(false);
@@ -21,10 +19,11 @@ export default function Home() {
   const router = useRouter();
 
   async function onLogin() {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: emailRef.current?.value || "",
-      password: passwordRef.current?.value || "",
-    });
+    const { error, role } = await login(
+      supabase,
+      emailRef.current?.value || "",
+      passwordRef.current?.value || ""
+    );
 
     setError("");
 
@@ -32,22 +31,28 @@ export default function Home() {
       setError(error.message);
       return;
     }
-    router.push("/home");
+
+    if (role == "user") {
+      router.push("/home");
+    } else {
+      router.push("/admin");
+    }
   }
 
   async function onSignUp() {
-    const { data, error } = await supabase.auth.signUp({
-      email: emailRef.current?.value || "",
-      password: passwordRef.current?.value || "",
-    });
+    const { error } = await addUser(
+      supabase,
+      emailRef.current?.value || "",
+      passwordRef.current?.value || "",
+      nameRef.current?.value
+    );
 
-    setError("");
-    setSuccess(false);
-
-    if (error) setError(error.message);
-    else {
-      (await addUser)(data.user?.id, nameRef.current?.value);
+    if (error) {
+      setSuccess(false);
+      setError(error.message);
+    } else {
       setSuccess(true);
+      setError("");
     }
   }
 

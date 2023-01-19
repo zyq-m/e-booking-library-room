@@ -1,12 +1,31 @@
-import { supabase } from "../lib/supabase";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export async function addUser(email: string, password: string) {
-  return await supabase.auth.signUp({ email: email, password: password });
+interface Options {
+  admin?: boolean;
+  user?: boolean;
 }
 
-export async function addAdmin(userId: string | undefined) {
-  return await supabase
-    .from("user")
-    .update({ role: "admin" })
-    .eq("userId", userId);
+export async function addUser(
+  supabase: SupabaseClient,
+  email: string,
+  password: string,
+  name?: string,
+  options?: Options
+) {
+  const signUp = await supabase.auth.signUp({
+    email: email,
+    password: password,
+  });
+
+  if (options?.admin) {
+    await supabase
+      .from("user")
+      .insert({ userId: signUp.data.user?.id, name: name, role: "admin" });
+  } else {
+    await supabase
+      .from("user")
+      .insert({ userId: signUp.data.user?.id, name: name });
+  }
+
+  return signUp;
 }

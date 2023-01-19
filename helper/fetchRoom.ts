@@ -1,26 +1,22 @@
-import { supabase } from "../lib/supabase";
 import { fetchUserId } from "./fetchUserId";
 import moment from "moment";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export async function fetchRooms() {
-  const { data, error } = await supabase.from("room").select("*");
-
-  return { data, error };
+export async function fetchRooms(supabase: SupabaseClient) {
+  return await supabase.from("room").select("*");
 }
 
-export async function fetchRoomByName(name: string | string[] | undefined) {
-  const { data, error } = await supabase
-    .from("room")
-    .select()
-    .like("name", `%${name}%`);
-
-  return { data, error };
+export async function fetchRoomByName(
+  supabase: SupabaseClient,
+  name: string | string[] | undefined
+) {
+  return await supabase.from("room").select().like("name", `%${name}%`);
 }
 
-export async function fetchCurrentBookedRoom(token: string | undefined) {
+export async function fetchCurrentBookedRoom(supabase: SupabaseClient) {
   const date = moment().format("YYYY-MM-DD");
-  const userId = await fetchUserId(token);
-  const { data, error } = await supabase
+  const userId = await fetchUserId(supabase);
+  const booking = await supabase
     .from("booking")
     .select(
       `room(
@@ -32,12 +28,12 @@ export async function fetchCurrentBookedRoom(token: string | undefined) {
     .eq("room.isBooked", true)
     .order("from", { ascending: false });
 
-  return { data, error };
+  return booking;
 }
 
-export async function fetchHistoryBooked(token: string | undefined) {
-  const userId = await fetchUserId(token);
-  const { data, error } = await supabase
+export async function fetchHistoryBooked(supabase: SupabaseClient) {
+  const userId = await fetchUserId(supabase);
+  return await supabase
     .from("booking")
     .select(
       `
@@ -49,6 +45,4 @@ export async function fetchHistoryBooked(token: string | undefined) {
       )`
     )
     .eq("userId", userId);
-
-  return { data, error };
 }

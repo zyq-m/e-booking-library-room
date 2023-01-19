@@ -6,6 +6,7 @@ import PopupModal from "./PopupModal";
 import useModal from "../hooks/useModal";
 import { cancelBooking } from "../helper/cancelBooking";
 import { useRouter } from "next/router";
+import useSupabase from "../hooks/useSupabaseAuth";
 
 export type TRoom = {
   image: string;
@@ -26,9 +27,9 @@ export default function RoomCard({
   isBooked,
   time,
 }: TRoom) {
-  //TODO: jgn lupa manipulate roomId
   const { openModal, closeModal, modalIsOpen } = useModal();
   const router = useRouter();
+  const { supabase } = useSupabase();
 
   return (
     <div className="flex gap-3 items-center p-2 rounded-lg bg-white">
@@ -61,7 +62,7 @@ export default function RoomCard({
                 styles="px-3 text-sm bg-red-400"
                 disable={!isAvailable && true}
                 onClick={() =>
-                  cancelBooking(roomId).then(() => {
+                  cancelBooking(supabase, roomId).then(() => {
                     alert("You cancel the book");
                     router.push("/home");
                   })

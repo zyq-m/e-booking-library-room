@@ -14,7 +14,7 @@ type THList = {
 function BookingHistoryList({ list }: THList) {
   return (
     <ul id="recent" className="mt-2 text-gray-400 text">
-      {list.map((data, i) => {
+      {list?.map((data, i) => {
         return (
           <li
             key={i}

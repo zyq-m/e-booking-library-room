@@ -1,6 +1,6 @@
-import { supabase } from "../lib/supabase";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export async function fetchNotApprovedRoom() {
+export async function fetchNotApprovedRoom(supabase: SupabaseClient) {
   const booking = await supabase
     .from("booking")
     .select(
@@ -22,7 +22,7 @@ export async function fetchNotApprovedRoom() {
   return booking;
 }
 
-export async function fetchBooking() {
+export async function fetchBooking(supabase: SupabaseClient) {
   const booking = await supabase.from("booking").select(
     `
     user(

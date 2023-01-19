@@ -1,13 +1,15 @@
 import React from "react";
 import Layout from "../../components/Layout";
-import { fetchUsers } from "../../helper/fetchUser";
+import useFetchUsers from "../../hooks/useFetchUsers";
 
-interface User {
+export interface User {
   userId: string;
   name: string;
 }
 
-export default function Users({ users }: { users: User[] }) {
+export default function Users() {
+  const users = useFetchUsers();
+
   return (
     <Layout>
       <div>
@@ -22,7 +24,7 @@ export default function Users({ users }: { users: User[] }) {
             </tr>
           </thead>
           <tbody>
-            {users.map(user => {
+            {users?.map(user => {
               return (
                 <tr key={user.userId} className="border-y">
                   <td className="pl-2 py-4">{user.userId}</td>
@@ -37,8 +39,8 @@ export default function Users({ users }: { users: User[] }) {
   );
 }
 
-export async function getServerSideProps() {
-  const users = await fetchUsers();
+// export async function getServerSideProps() {
+//   const users = await fetchUsers();
 
-  return { props: { users: users.data } };
-}
+//   return { props: { users: users.data } };
+// }

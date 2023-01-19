@@ -1,17 +1,11 @@
-import { supabase } from "../lib/supabase";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { fetchUserId } from "./fetchUserId";
 
-export async function fetchUser(jwt: string | undefined) {
-  const userId = await fetchUserId(jwt);
-
-  const { data, error } = await supabase
-    .from("user")
-    .select("name")
-    .eq("userId", userId);
-
-  return { data, error };
+export async function fetchUser(supabase: SupabaseClient) {
+  const userId = await fetchUserId(supabase);
+  return await supabase.from("user").select("name").eq("userId", userId);
 }
 
-export async function fetchUsers() {
-  return await supabase.from("user").select();
+export async function fetchUsers(supabase: SupabaseClient) {
+  return await supabase.from("user").select("*").eq("role", "user");
 }

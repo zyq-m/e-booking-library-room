@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import BookingList from "../../components/BookingList";
 import Button from "../../components/Button";
 import Layout from "../../components/Layout";
-import { fetchNotApprovedRoom } from "../../helper/fetchBooking";
 import { Room } from "../booking";
 import { approveBooking } from "../../helper/bookRoom";
-import { useRouter } from "next/router";
+import useFetchNotApproved from "../../hooks/useFetchNotApproved";
+import useSupabase from "../../hooks/useSupabaseAuth";
 
 export interface BookingInterface {
   from: string;
@@ -21,15 +21,18 @@ interface User {
   name: string;
 }
 
-export default function Dashboard({ list }: { list: BookingInterface[] }) {
+export default function Dashboard() {
   const [booking, setBooking] = useState<string[]>([]);
-  const router = useRouter();
+  const [trigger, setTrigger] = useState<boolean>(false);
+  const room = useFetchNotApproved({ trigger: trigger });
+  const { supabase } = useSupabase();
 
   async function onApprove() {
     try {
-      await approveBooking(booking);
+      await approveBooking(supabase, booking);
       alert(`${booking.length} booking have been approved`);
-      router.push("/admin");
+      setTrigger(!trigger);
+
       // clear array
       // ! but array not empty
       setBooking([]);
@@ -48,7 +51,7 @@ export default function Dashboard({ list }: { list: BookingInterface[] }) {
       <div>
         <h2 className="mb-4">Approval</h2>
         <BookingList
-          list={list}
+          list={room}
           checkbox={true}
           approvedList={list => setBooking(list)}
         />
@@ -70,9 +73,4 @@ export default function Dashboard({ list }: { list: BookingInterface[] }) {
       </div>
     </Layout>
   );
-}
-
-export async function getServerSideProps() {
-  const booking = await fetchNotApprovedRoom();
-  return { props: { list: booking.data } };
 }

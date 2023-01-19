@@ -4,7 +4,7 @@ import CustomModal from "./Modal";
 import useModal from "../hooks/useModal";
 
 type TSort = {
-  totalRoom: number;
+  totalRoom?: number;
   roomStatus: (status: boolean | string) => void;
   search?: string;
 };

@@ -1,6 +1,9 @@
-import { supabase } from "../lib/supabase";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export async function cancelBooking(roomId: string | undefined) {
+export async function cancelBooking(
+  supabase: SupabaseClient,
+  roomId: string | undefined
+) {
   return await supabase
     .from("room")
     .update({ isBooked: false, isAvailable: true })

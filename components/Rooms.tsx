@@ -2,13 +2,13 @@ import React, { memo } from "react";
 import RoomCard, { TRoom } from "./RoomCard";
 
 type TList = {
-  list: TRoom[];
+  list?: TRoom[] | null | undefined;
 };
 
 function Rooms({ list }: TList) {
   return (
     <div className="grid gap-4">
-      {list.map(room => {
+      {list?.map(room => {
         return (
           <RoomCard
             key={room.roomId}
