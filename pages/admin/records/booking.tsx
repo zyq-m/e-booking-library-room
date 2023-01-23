@@ -1,7 +1,6 @@
 import React from "react";
 import BookingList from "../../../components/BookingList";
 import Layout from "../../../components/Layout";
-import { BookingInterface } from "..";
 import useFetchBookings from "../../../hooks/useFetchBookings";
 
 export default function Booking() {
