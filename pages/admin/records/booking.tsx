@@ -1,21 +1,17 @@
 import React from "react";
 import BookingList from "../../../components/BookingList";
 import Layout from "../../../components/Layout";
-import { fetchBooking } from "../../../helper/fetchBooking";
 import { BookingInterface } from "..";
+import useFetchBookings from "../../../hooks/useFetchBookings";
 
-export default function Booking({ list }: { list: BookingInterface[] }) {
+export default function Booking() {
+  const bookings = useFetchBookings();
   return (
     <Layout>
       <div>
         <h2 className="mb-4 ml-2">Booking Records</h2>
-        <BookingList list={list} checkbox={false} />
+        <BookingList list={bookings} checkbox={false} />
       </div>
     </Layout>
   );
-}
-
-export async function getServerSideProps() {
-  const booking = await fetchBooking();
-  return { props: { list: booking.data } };
 }
