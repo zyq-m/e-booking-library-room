@@ -1,14 +1,12 @@
-import { useRouter } from "next/router";
 import React from "react";
 import { VscBell, VscMenu } from "react-icons/vsc";
-import useSupabase from "../hooks/useSupabaseAuth";
 import useModal from "../hooks/useModal";
 import NavLink from "./NavLink";
-import { ADMIN_ROUTE } from "../public/constant";
+import { ADMIN_ROUTE, USER_ROUTE } from "../public/constant";
+import useDefineUser from "../hooks/useDefineUser";
 
 export default function NavBar() {
-  const { supabase } = useSupabase();
-  const router = useRouter();
+  const user = useDefineUser();
   const { closeModal, modalIsOpen, openModal } = useModal();
 
   return (
@@ -18,11 +16,19 @@ export default function NavBar() {
         <VscBell size={25} />
       </div>
       {/* admin */}
-      <NavLink
-        links={ADMIN_ROUTE}
-        closeModal={closeModal}
-        modalIsOpen={modalIsOpen}
-      />
+      {user == "user" ? (
+        <NavLink
+          links={USER_ROUTE}
+          closeModal={closeModal}
+          modalIsOpen={modalIsOpen}
+        />
+      ) : (
+        <NavLink
+          links={ADMIN_ROUTE}
+          closeModal={closeModal}
+          modalIsOpen={modalIsOpen}
+        />
+      )}
     </nav>
   );
 }
