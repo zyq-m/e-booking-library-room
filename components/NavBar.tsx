@@ -15,7 +15,6 @@ export default function NavBar() {
         <VscMenu size={25} onClick={openModal} />
         <VscBell size={25} />
       </div>
-      {/* admin */}
       {user == "user" ? (
         <NavLink
           links={USER_ROUTE}

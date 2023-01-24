@@ -31,7 +31,7 @@ export const USER_ROUTE: Link[] = [
   },
   {
     id: "room",
-    link: "/room/all",
+    link: "/room/[room]",
     name: "Room",
   },
   {
