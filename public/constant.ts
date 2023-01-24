@@ -30,11 +30,6 @@ export const USER_ROUTE: Link[] = [
     name: "Home",
   },
   {
-    id: "room",
-    link: "/room/[room]",
-    name: "Room",
-  },
-  {
     id: "myBooking",
     link: "/booking",
     name: "My Booking",
