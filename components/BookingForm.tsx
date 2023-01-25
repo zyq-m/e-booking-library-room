@@ -5,22 +5,32 @@ import CustomModal from "./Modal";
 import Button from "./Button";
 import { TModal } from "./Modal";
 import Input from "./Input";
-import { bookRoom } from "../helper/bookRoom";
+import { bookRoom, bookRoomPermission } from "../helper/bookRoom";
 import useSupabase from "../hooks/useSupabaseAuth";
 import { useRouter } from "next/router";
 
 type TForm = {
   roomId: string;
   modal: TModal;
-  token?: string | undefined;
 };
 
-export default function BookingForm({ roomId, modal, token }: TForm) {
+export default function BookingForm({ roomId, modal }: TForm) {
   const fromRef = useRef<HTMLInputElement>(null);
   const toRef = useRef<HTMLInputElement>(null);
   const { supabase } = useSupabase();
   const [disableBtn, setDisableBtn] = useState(false);
   const router = useRouter();
+
+  function bookSuccess() {
+    alert("Room successfully booked");
+    modal.closeModal();
+    router.push("/home");
+  }
+
+  function bookFail(error: string | unknown) {
+    alert(error);
+    modal.closeModal();
+  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e?.preventDefault();
@@ -31,6 +41,14 @@ export default function BookingForm({ roomId, modal, token }: TForm) {
 
     if (duration >= 5) {
       // TODO: need permission
+      return bookRoomPermission(
+        supabase,
+        fromRef.current?.value,
+        toRef.current?.value,
+        roomId
+      )
+        .then(bookSuccess)
+        .catch(error => bookFail(error));
     }
 
     if (duration < 0) {
@@ -43,8 +61,6 @@ export default function BookingForm({ roomId, modal, token }: TForm) {
       return;
     }
 
-    console.log(roomId, fromRef.current?.value, toRef.current?.value, token);
-
     try {
       setDisableBtn(true);
 
@@ -56,11 +72,9 @@ export default function BookingForm({ roomId, modal, token }: TForm) {
       );
 
       // todo: push notification to user after book
-      alert("Room successfully booked");
-      modal.closeModal();
-      router.push("/home");
+      bookSuccess();
     } catch (error) {
-      console.log(error);
+      bookFail(error);
     }
 
     setDisableBtn(false);
