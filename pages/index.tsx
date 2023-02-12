@@ -63,10 +63,14 @@ export default function Home() {
   }
 
   return (
-    <div className="grid min-h-screen px-4">
-      <div className="self-center">
-        <h1 className="mb-6 text-4xl">Find Your Favorite Room to Study</h1>
-        <p>Find your study room and book any time you want with us</p>
+    <div className="grid min-h-screen px-4 bg-img">
+      <div className="self-end">
+        <h1 className="mb-6 text-4xl font-semibold text-blue-900">
+          Find Your Favorite Room to Study
+        </h1>
+        <p className="font-light">
+          Find your study room and book any time you want with us
+        </p>
       </div>
       <div className="self-center">
         {signUp && (

@@ -34,4 +34,10 @@ export const USER_ROUTE: Link[] = [
     link: "/booking",
     name: "My Booking",
   },
+  {
+    id: "room",
+    link: "/room/[room]",
+    otherLink: "/room/all",
+    name: "Room",
+  },
 ];
