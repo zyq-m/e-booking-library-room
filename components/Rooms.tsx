@@ -7,7 +7,7 @@ type TList = {
 
 function Rooms({ list }: TList) {
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-4 pb-4">
       {list?.map(room => {
         return (
           <RoomCard

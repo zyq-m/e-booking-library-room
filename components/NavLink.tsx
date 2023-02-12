@@ -16,7 +16,12 @@ export default function NavLink({ closeModal, modalIsOpen, links }: Nav) {
         {links.map(link => {
           return (
             <li key={link.id}>
-              <ActiveLink id={link.id} link={link.link} name={link.name} />
+              <ActiveLink
+                id={link.id}
+                link={link.link}
+                name={link.name}
+                otherLink={link.otherLink}
+              />
             </li>
           );
         })}

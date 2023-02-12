@@ -6,14 +6,16 @@ export interface Link {
   link: string;
   id: string;
   name: string;
+  otherLink?: string;
 }
 
-export default function ActiveLink({ link, id, name }: Link) {
+export default function ActiveLink({ link, id, name, otherLink }: Link) {
   const router = useRouter();
+  console.log(otherLink);
 
   return (
     <Link
-      href={link}
+      href={otherLink || link}
       id={id}
       className={`${router.pathname == link && "border-b-blue-400 border-b"}`}>
       {name}

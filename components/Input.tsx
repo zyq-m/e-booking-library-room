@@ -6,13 +6,16 @@ interface TInput {
   placeholder?: string;
   type: React.HTMLInputTypeAttribute;
   styles?: string;
+  labelStyle?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, TInput>(
-  ({ id, label, type, placeholder, styles }, ref) => {
+  ({ id, label, type, placeholder, styles, labelStyle }, ref) => {
     return (
       <div>
-        <label htmlFor={id} className="block text-sm text-gray-500 ml-1">
+        <label
+          htmlFor={id}
+          className={`block text-sm text-gray-500 ml-1 ${labelStyle}`}>
           {label}
         </label>
         <input
