@@ -3,14 +3,28 @@ import Link from "next/link";
 import Layout from "../components/Layout";
 import Carousel from "../components/Carousel";
 import Search from "../components/Search";
-import data from "../public/data";
 import { TRoom } from "../components/RoomCard";
 
-export default function Home({ data }: { data: TRoom[] }) {
+import useFetchName from "../hooks/useFetchName";
+import useFetchRooms from "../hooks/useFetchRooms";
+
+interface Data {
+  data: {
+    data: TRoom[];
+    name: string;
+  };
+}
+
+export default function Home() {
+  const name = useFetchName();
+  const rooms = useFetchRooms({});
+
   return (
     <Layout>
       <div>
-        <h2 className="text-xl font-medium ml-1">Hi Alex, Let{"'"}s</h2>
+        <h2 className="text-xl font-medium ml-1">
+          Hi {name}, Let{"'"}s
+        </h2>
         <Search />
         <section>
           <div className="flex justify-between items-center mb-4 mx-1">
@@ -19,13 +33,9 @@ export default function Home({ data }: { data: TRoom[] }) {
               See more
             </Link>
           </div>
-          <Carousel data={data} />
+          <Carousel data={rooms} />
         </section>
       </div>
     </Layout>
   );
-}
-
-export async function getServerSideProps() {
-  return { props: { data: data } };
 }

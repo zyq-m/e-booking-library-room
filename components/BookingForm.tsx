@@ -1,10 +1,13 @@
-import React, { useRef, forwardRef } from "react";
+import React, { useRef, useState } from "react";
 import moment from "moment";
 
 import CustomModal from "./Modal";
 import Button from "./Button";
 import { TModal } from "./Modal";
 import Input from "./Input";
+import { bookRoom, bookRoomPermission } from "../helper/bookRoom";
+import useSupabase from "../hooks/useSupabaseAuth";
+import { useRouter } from "next/router";
 
 type TForm = {
   roomId: string;
@@ -14,8 +17,22 @@ type TForm = {
 export default function BookingForm({ roomId, modal }: TForm) {
   const fromRef = useRef<HTMLInputElement>(null);
   const toRef = useRef<HTMLInputElement>(null);
+  const { supabase } = useSupabase();
+  const [disableBtn, setDisableBtn] = useState(false);
+  const router = useRouter();
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function bookSuccess() {
+    alert("Room successfully booked");
+    modal.closeModal();
+    router.push("/home");
+  }
+
+  function bookFail(error: string | unknown) {
+    alert(error);
+    modal.closeModal();
+  }
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e?.preventDefault();
 
     const from = moment.duration(fromRef.current?.value, "h");
@@ -24,20 +41,43 @@ export default function BookingForm({ roomId, modal }: TForm) {
 
     if (duration >= 5) {
       // TODO: need permission
+      return bookRoomPermission(
+        supabase,
+        fromRef.current?.value,
+        toRef.current?.value,
+        roomId
+      )
+        .then(bookSuccess)
+        .catch(error => bookFail(error));
     }
 
     if (duration < 0) {
       alert("You cannot book during this hour");
+      return;
     }
 
-    if (fromRef.current?.value == "" && toRef.current?.value == "") {
+    if (fromRef.current?.value == "" || toRef.current?.value == "") {
       alert("Please select time");
+      return;
     }
 
-    console.log(roomId, fromRef.current?.value, toRef.current?.value);
+    try {
+      setDisableBtn(true);
 
-    // todo: push notification to user after book
-    // modal.closeModal();
+      await bookRoom(
+        supabase,
+        fromRef.current?.value,
+        toRef.current?.value,
+        roomId
+      );
+
+      // todo: push notification to user after book
+      bookSuccess();
+    } catch (error) {
+      bookFail(error);
+    }
+
+    setDisableBtn(false);
   }
 
   return (
@@ -56,6 +96,7 @@ export default function BookingForm({ roomId, modal }: TForm) {
           id="book"
           styles="w-full rounded-lg"
           type="submit"
+          disable={disableBtn}
         />
       </form>
     </CustomModal>

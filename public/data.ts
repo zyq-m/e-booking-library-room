@@ -1,7 +1,7 @@
 import { TRoom } from "../components/RoomCard";
 import { TRecords } from "../components/BookingList";
 
-const data: TRoom[] = [
+export const roomData: TRoom[] = [
   {
     name: "karel room 1",
     roomId: "room1",
@@ -100,5 +100,3 @@ export const history: TRecords[] = [
     duration: "2 hours",
   },
 ];
-
-export default data;

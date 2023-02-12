@@ -4,7 +4,7 @@ import CustomModal from "./Modal";
 import useModal from "../hooks/useModal";
 
 type TSort = {
-  totalRoom: number;
+  totalRoom?: number;
   roomStatus: (status: boolean | string) => void;
   search?: string;
 };
@@ -51,10 +51,12 @@ export default function Sort({ totalRoom, roomStatus, search }: TSort) {
           <RadioButton
             id="all"
             label="All"
-            name="isAvailable"
+            name="all"
             value="all"
             onChange={handleRadio}
-            checked={isAvailable === "all"}
+            checked={
+              isAvailable !== "available" && isAvailable !== "notAvailable"
+            }
           />
           <RadioButton
             id="available"

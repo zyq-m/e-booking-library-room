@@ -1,19 +1,49 @@
 import React, { useState } from "react";
 
-import BookingList, { TRecordsList } from "../../components/BookingList";
+import BookingList from "../../components/BookingList";
 import Button from "../../components/Button";
 import Layout from "../../components/Layout";
-import { history } from "../../public/data";
+import { Room } from "../booking";
+import { approveBooking } from "../../helper/bookRoom";
+import useFetchNotApproved from "../../hooks/useFetchNotApproved";
+import useSupabase from "../../hooks/useSupabaseAuth";
 
-export default function Dashboard({ list }: TRecordsList) {
+export interface BookingInterface {
+  from: string;
+  to: string;
+  date: string;
+  room: Room;
+  user: User;
+  bookingId: string;
+}
+
+interface User {
+  name: string;
+}
+
+export default function Dashboard() {
   const [booking, setBooking] = useState<string[]>([]);
+  const [trigger, setTrigger] = useState<boolean>(false);
+  const room = useFetchNotApproved({ trigger: trigger });
+  const { supabase } = useSupabase();
 
-  function onApprove() {
-    console.log(booking);
+  async function onApprove() {
+    try {
+      await approveBooking(supabase, booking);
+      alert(`${booking.length} booking have been approved`);
+      setTrigger(!trigger);
+
+      // clear array
+      // ! but array not empty
+      setBooking([]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function onReject() {
-    console.log(booking);
+    setBooking([]);
+    alert(`${booking.length} booking have been rejected`);
   }
 
   return (
@@ -21,7 +51,7 @@ export default function Dashboard({ list }: TRecordsList) {
       <div>
         <h2 className="mb-4">Approval</h2>
         <BookingList
-          list={list}
+          list={room}
           checkbox={true}
           approvedList={list => setBooking(list)}
         />
@@ -43,8 +73,4 @@ export default function Dashboard({ list }: TRecordsList) {
       </div>
     </Layout>
   );
-}
-
-export async function getServerSideProps() {
-  return { props: { list: history } };
 }
