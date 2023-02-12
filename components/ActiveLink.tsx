@@ -11,7 +11,6 @@ export interface Link {
 
 export default function ActiveLink({ link, id, name, otherLink }: Link) {
   const router = useRouter();
-  console.log(otherLink);
 
   return (
     <Link
